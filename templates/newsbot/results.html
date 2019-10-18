@@ -1,0 +1,229 @@
+{% extends 'base/base.html' %}
+{% block extrahead %}
+	<title>NewsBot Artificial Intelligence for detection of fake news</title>
+	<meta property="og:title" content="NewsBot Artificial Intelligence for detection of fake news">
+	<meta property="twitter:title" content="NewsBot Artificial Intelligence for detection of fake news">
+	<meta property="og:image" content="https://www.unslanted.net/static/crowdnews/robobrain_md.png">
+	<meta property="twitter:image" content="https://www.unslanted.net/static/crowdnews/robobrain_md.png">
+
+	<meta property="og:description" content="New artificial intelligence can detect fake news with high accuracy. Give it a try!">
+	<meta property="twitter:description" content="New artificial intelligence can detect fake news with high accuracy. Give it a try!">
+	<meta name="description" content="NewsBot Artificial Intelligence for detection of fake news">
+	<meta name="keywords" content="artificial intelligence natural language processing news fake news detection">
+	<meta property="og:url" content="https://www.unslanted.net/newsbot/">
+	<meta property="twitter:url" content="https://www.unslanted.net/newsbot/">
+	<meta property="og:type" content="article">
+	<meta property="twitter:type" content="article">
+<link rel="canonical" href="https://www.unslanted.net/newsbot/" />
+<meta name="twitter:partner" content="unslanted.net">
+<meta name="twitter:card" content="summary">
+<style>
+input[type=url] {
+  border: 2px solid blue;
+  border-radius: 4px;
+}
+input[type=submit] {
+  border: 2px solid blue;
+  border-radius: 4px;
+}
+
+</style>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css" />
+{% endblock %}
+
+{% block content %}
+<div class="row row row-fluid">
+	<div class="wpb_column columns small-12 medium-12">
+		<div class="vc_column-inner  ">
+			<div class="wpb_wrapper">
+
+	<h2>Analysis of <a href="{{ url }}">{{ headline }}</a><br><br></h2>
+
+	<a href="/newsbot/"><button class="btn btn-primary btn btn-primary">Analyze another</button></a>
+
+
+	<h3 style="text-align: center;">
+	Combined Result:<br>
+	{% if fin_totFake >= fin_totReal %}
+		Fake/Dodgy
+	{% else %}
+		Seems Legit/True
+	{% endif %}
+	</h3>
+	
+	<br>
+
+Probability of Fake: {{ fin_probabilities.0|floatformat }}% chance of Fake
+<div class="progress">
+  <div class="progress-bar" id="fakeProb_bar" role="progressbar" aria-valuenow="{{ fin_probabilities.0 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ fin_probabilities.0 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Dodgy: {{ fin_probabilities.1|floatformat }}% chance of Dodgy
+<div class="progress">
+  <div class="progress-bar" id="MfakeProb_bar" role="progressbar" aria-valuenow="{{ fin_probabilities.1 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ fin_probabilities.1 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Mostly True: {{ fin_probabilities.2|floatformat }}% chance of Mostly True
+<div class="progress">
+  <div class="progress-bar" id="MtrueProb_bar" role="progressbar" aria-valuenow="{{ fin_probabilities.2 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ fin_probabilities.2 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of True: {{ fin_probabilities.3|floatformat }}% chance of True
+<div class="progress">
+  <div class="progress-bar" id="trueProb_bar" role="progressbar" aria-valuenow="{{ fin_probabilities.3 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ fin_probabilities.3 }}%"></div>
+</div>
+
+
+<br><br><hr><br><br>
+	<h2 style="text-align: center;">
+	Individual model results
+	</h2>
+
+
+	<h3 style="text-align: center;">
+	Support Vector Classifier Result:<br>
+	{% if svc_totFake >= svc_totReal %}
+		Fake/Dodgy
+	{% else %}
+		Seems Legit/True
+	{% endif %}
+	</h3>
+	
+	<br>
+
+Probability of Fake: {{ svc_probabilities.0|floatformat }}% chance of Fake
+<div class="progress">
+  <div class="progress-bar" id="fakeProb_bar" role="progressbar" aria-valuenow="{{ svc_probabilities.0 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ svc_probabilities.0 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Dodgy: {{ svc_probabilities.1|floatformat }}% chance of Dodgy
+<div class="progress">
+  <div class="progress-bar" id="MfakeProb_bar" role="progressbar" aria-valuenow="{{ svc_probabilities.1 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ svc_probabilities.1 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Mostly True: {{ svc_probabilities.2|floatformat }}% chance of Mostly True
+<div class="progress">
+  <div class="progress-bar" id="MtrueProb_bar" role="progressbar" aria-valuenow="{{ svc_probabilities.2 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ svc_probabilities.2 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of True: {{ svc_probabilities.3|floatformat }}% chance of True
+<div class="progress">
+  <div class="progress-bar" id="trueProb_bar" role="progressbar" aria-valuenow="{{ svc_probabilities.3 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ svc_probabilities.3 }}%"></div>
+</div>
+	 
+	<br><hr><br>
+
+	<h3 style="text-align: center;">
+	Logistic Regression Result:<br>
+	{% if log_totFake >= log_totReal %}
+		Fake/Dodgy
+	{% else %}
+		Seems Legit/True
+	{% endif %}
+	</h3>
+	
+	<br>
+
+Probability of Fake: {{ log_probabilities.0|floatformat }}% chance of Fake
+<div class="progress">
+  <div class="progress-bar" id="fakeProb_bar" role="progressbar" aria-valuenow="{{ log_probabilities.0 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ log_probabilities.0 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Dodgy: {{ log_probabilities.1|floatformat }}% chance of Dodgy
+<div class="progress">
+  <div class="progress-bar" id="MfakeProb_bar" role="progressbar" aria-valuenow="{{ log_probabilities.1 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ log_probabilities.1 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Mostly True: {{ log_probabilities.2|floatformat }}% chance of Mostly True
+<div class="progress">
+  <div class="progress-bar" id="MtrueProb_bar" role="progressbar" aria-valuenow="{{ log_probabilities.2 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ log_probabilities.2 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of True: {{ log_probabilities.3|floatformat }}% chance of True
+<div class="progress">
+  <div class="progress-bar" id="trueProb_bar" role="progressbar" aria-valuenow="{{ log_probabilities.3 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ log_probabilities.3 }}%"></div>
+</div>
+	 
+	<br><hr><br>
+	
+	
+	<h3 style="text-align: center;">
+	Multilayer Perceptron Result:<br>
+	{% if mlp_totFake >= mlp_totReal %}
+		Fake/Dodgy
+	{% else %}
+		Seems Legit/True
+	{% endif %}
+	</h3>
+	
+	<br>
+
+Probability of Fake: {{ mlp_probabilities.0|floatformat }}% chance of Fake
+<div class="progress">
+  <div class="progress-bar" id="fakeProb_bar" role="progressbar" aria-valuenow="{{ mlp_probabilities.0 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ mlp_probabilities.0 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Dodgy: {{ mlp_probabilities.1|floatformat }}% chance of Dodgy
+<div class="progress">
+  <div class="progress-bar" id="MfakeProb_bar" role="progressbar" aria-valuenow="{{ mlp_probabilities.1 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ mlp_probabilities.1 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of Mostly True: {{ mlp_probabilities.2|floatformat }}% chance of Mostly True
+<div class="progress">
+  <div class="progress-bar" id="MtrueProb_bar" role="progressbar" aria-valuenow="{{ mlp_probabilities.2 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ mlp_probabilities.2 }}%"></div>
+</div>
+	 
+	<br>
+
+Probability of True: {{ mlp_probabilities.3|floatformat }}% chance of True
+<div class="progress">
+  <div class="progress-bar" id="trueProb_bar" role="progressbar" aria-valuenow="{{ mlp_probabilities.3 }}"
+  aria-valuemin="0" aria-valuemax="100" style="width:{{ mlp_probabilities.3 }}%"></div>
+</div>
+	
+
+	<hr>
+	Extracted words: {{ words }}<br>
+<br><br><br>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}			
